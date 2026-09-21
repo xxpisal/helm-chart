@@ -1,26 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd
-  namespace: argocd
+  name: longhorn
+  namespace: longhorn-system
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - argocd.xxpisal.online
-      secretName: argocd-xxpisal-online-tls
+        - longhorn.xxpisal.online
+      secretName: longhorn-xxpisal-online-tls
   rules:
-    - host: argocd.xxpisal.online
+    - host: longhorn.xxpisal.online
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: longhorn-frontend
                 port:
-                  name: https
+                  number: 80

@@ -1,26 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd
-  namespace: argocd
+  name: gitlab
+  namespace: gitlab
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - argocd.xxpisal.online
-      secretName: argocd-xxpisal-online-tls
+        - gitlab.xxpisal.online
+      secretName: gitlab-xxpisal-online-tls
   rules:
-    - host: argocd.xxpisal.online
+    - host: gitlab.xxpisal.online
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: gitlab-webservice-default
                 port:
-                  name: https
+                  number: 8181

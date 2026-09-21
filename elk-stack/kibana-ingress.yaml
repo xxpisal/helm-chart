@@ -1,26 +1,25 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: argocd
-  namespace: argocd
+  name: kibana
+  namespace: elk-stack
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - argocd.xxpisal.online
-      secretName: argocd-xxpisal-online-tls
+        - kibana.xxpisal.online
+      secretName: kibana-xxpisal-online-tls
   rules:
-    - host: argocd.xxpisal.online
+    - host: kibana.xxpisal.online
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: argocd-server
+                name: elk-stack-kibana
                 port:
-                  name: https
+                  number: 5601
