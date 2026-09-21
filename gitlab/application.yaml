@@ -1,0 +1,34 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitlab
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://charts.gitlab.io/
+    chart: gitlab
+    targetRevision: 9.7.0
+    helm:
+      releaseName: gitlab
+      values: |
+        global:
+          edition: ce
+          hosts:
+            domain: xxpisal.online
+            https: false
+        certmanager:
+          install: false
+        nginx-ingress:
+          enabled: false
+        prometheus:
+          install: false
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: gitlab
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
