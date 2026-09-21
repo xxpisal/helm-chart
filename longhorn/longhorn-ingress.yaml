@@ -4,9 +4,14 @@ metadata:
   name: longhorn
   namespace: longhorn-system
   annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - longhorn.xxpisal.online
+      secretName: longhorn-xxpisal-online-tls
   rules:
     - host: longhorn.xxpisal.online
       http:
@@ -18,3 +23,4 @@ spec:
                 name: longhorn-frontend
                 port:
                   number: 80
+kubectl apply -f longhorn-ingress.yaml
