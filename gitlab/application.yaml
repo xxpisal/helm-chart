@@ -22,8 +22,7 @@ spec:
             class: nginx
             tls:
               enabled: false
-        certmanager:
-          install: false
+        installCertmanager: false
         nginx-ingress:
           enabled: false
         prometheus:
