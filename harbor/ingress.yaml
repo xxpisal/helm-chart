@@ -1,25 +1,2 @@
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: harbor
-  namespace: harbor
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-spec:
-  ingressClassName: nginx
-  tls:
-    - hosts:
-        - harbor.xxpisal.online
-      secretName: harbor-xxpisal-online-tls
-  rules:
-    - host: harbor.xxpisal.online
-      http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: harbor-portal
-                port:
-                  number: 80
+# Harbor creates and manages its own Ingress through harbor/application.yaml.
+# Do not apply this file separately.

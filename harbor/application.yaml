@@ -13,12 +13,31 @@ spec:
       releaseName: harbor
       values: |
         expose:
-          type: clusterIP
+          type: ingress
           tls:
-            enabled: false
-        externalURL: http://harbor.xxpisal.online
+            enabled: true
+            certSource: secret
+            secret:
+              secretName: harbor-xxpisal-online-tls
+          ingress:
+            hosts:
+              core: harbor.xxpisal.online
+            className: nginx
+            annotations:
+              cert-manager.io/cluster-issuer: letsencrypt-prod
+              nginx.ingress.kubernetes.io/proxy-body-size: "0"
+        externalURL: https://harbor.xxpisal.online
         persistence:
           enabled: true
+          persistentVolumeClaim:
+            registry:
+              storageClass: longhorn
+            database:
+              storageClass: longhorn
+            redis:
+              storageClass: longhorn
+            trivy:
+              storageClass: longhorn
   destination:
     server: https://kubernetes.default.svc
     namespace: harbor
